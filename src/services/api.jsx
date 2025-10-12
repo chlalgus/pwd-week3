@@ -114,6 +114,28 @@ export const restaurantAPI = {
       return { data: popular };
     }
   },
+
+  // 제출된 맛집 목록 가져오기
+  getSubmissions: async (status = 'pending') => {
+    try {
+      const response = await api.get(`/api/submissions?status=${status}`);
+      return response.data;
+    } catch (error) {
+      console.warn('Using fallback submissions', error);
+      return { data: [] }; // 로컬 fallback
+    }
+  },
+
+  // 제출 상태 업데이트
+  updateSubmission: async (id, payload) => {
+    try {
+      const response = await api.patch(`/api/submissions/${id}`, payload);
+      return response.data;
+    } catch (error) {
+      console.error('Update submission error', error);
+      throw error;
+    }
+  },
 };
 
 export default api;
